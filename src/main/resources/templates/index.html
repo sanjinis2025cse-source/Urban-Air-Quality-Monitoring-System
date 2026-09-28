@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102b29">
+  <title>Urban Air Quality | Monitoring & Compliance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/app.css}">
+</head>
+<body>
+  <aside class="sidebar" id="sidebar">
+    <a class="brand" href="#dashboard" data-page="dashboard"><span class="brand-mark">◉</span><span>Atmos<span class="brand-light">Watch</span><small>ENVIRONMENTAL INTELLIGENCE</small></span></a>
+    <div class="workspace-label">WORKSPACE</div>
+    <nav class="nav-list" aria-label="Main navigation">
+      <button class="nav-item active" data-page="dashboard"><span>▦</span> Overview</button>
+      <div class="nav-caption">AIR QUALITY</div>
+      <button class="nav-item" data-page="air-quality"><span>◌</span> Air quality</button>
+      <button class="nav-item" data-page="stations"><span>⌖</span> Monitoring stations</button>
+      <div class="nav-caption">INDUSTRY & COMPLIANCE</div>
+      <button class="nav-item" data-page="industries"><span>▤</span> Industries</button>
+      <button class="nav-item" data-page="emissions"><span>⌁</span> Emission records</button>
+      <button class="nav-item" data-page="limits"><span>⊙</span> Emission limits</button>
+      <button class="nav-item" data-page="violations"><span>⚑</span> Violations <span class="nav-count" id="violation-count">—</span></button>
+      <div class="nav-caption">FINE MANAGEMENT</div>
+      <button class="nav-item" data-page="fines"><span>＄</span> Fines</button>
+      <button class="nav-item" data-page="payments"><span>↗</span> Payments</button>
+    </nav>
+    <div class="sidebar-foot"><div class="pulse-dot"></div><span>Monitoring services</span><strong>Connected</strong></div>
+  </aside>
+  <main class="main-shell">
+    <header class="topbar"><button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">☰</button><div class="breadcrumbs">Environment <span>/</span> <strong id="breadcrumb">Overview</strong></div><div class="top-actions"><span class="live-indicator"><i></i> Live data</span><span class="top-date" id="today"></span><div class="avatar">EC</div></div></header>
+    <div class="content">
+      <section class="page-view active" id="view-dashboard">
+        <div class="welcome-row"><div><div class="eyebrow">ENVIRONMENTAL INTELLIGENCE</div><h1>Good morning, <span>Environmental team</span></h1><p class="subheading">A clear view of air quality and industrial compliance across your city.</p></div><button class="button button-primary" data-action="refresh">↻ <span>Refresh data</span></button></div>
+        <div class="summary-strip"><div class="summary-icon">⌖</div><div><b>City monitoring overview</b><span>Live conditions and compliance at a glance</span></div><span class="summary-status"><i></i> SYSTEM OPERATIONAL</span></div>
+        <div class="section-heading"><div><h2>Air quality now</h2><p>Most recent reading from your monitoring network</p></div><button class="text-link" data-page="air-quality">View air quality <span>→</span></button></div>
+        <div class="metric-grid" id="air-metrics">
+          <article class="metric-card aqi-card"><div class="metric-top"><span>Current AQI</span><span class="metric-symbol">◉</span></div><div class="metric-value" id="metric-aqi">—</div><div class="metric-foot"><span class="status-badge neutral" id="aqi-status">Awaiting data</span><span>US AQI</span></div><div class="aqi-track"><span id="aqi-track"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>PM2.5</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-pm25">—</div><div class="metric-foot"><span>Fine particles</span><span class="metric-dot green"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>PM10</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-pm10">—</div><div class="metric-foot"><span>Coarse particles</span><span class="metric-dot blue"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Carbon monoxide</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-co">—</div><div class="metric-foot"><span>CO</span><span class="metric-dot amber"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Nitrogen dioxide</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-no2">—</div><div class="metric-foot"><span>NO₂</span><span class="metric-dot violet"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Sulphur dioxide</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-so2">—</div><div class="metric-foot"><span>SO₂</span><span class="metric-dot rose"></span></div></article>
+          <article class="metric-card"><div class="metric-top"><span>Ozone</span><span class="pollutant-tag">µg/m³</span></div><div class="metric-value" id="metric-o3">—</div><div class="metric-foot"><span>O₃</span><span class="metric-dot teal"></span></div></article>
+        </div>
+        <div class="dashboard-grid">
+          <article class="panel chart-panel"><div class="panel-head"><div><h3>Pollutant profile</h3><p>Latest measured concentrations</p></div><span class="chart-legend"><i></i> Current reading</span></div><div class="chart" id="pollutant-chart"><div class="chart-empty">Air quality readings will appear here</div></div></article>
+          <article class="panel compliance-panel"><div class="panel-head"><div><h3>Compliance snapshot</h3><p>Industrial oversight at a glance</p></div><span class="panel-icon">⌁</span></div><div class="compliance-stats"><div><span>Registered industries</span><b id="industry-total">—</b></div><div><span>Open violations</span><b class="text-rose" id="open-violations">—</b></div></div><div class="fine-summary"><div><span>Total fines issued</span><b id="fine-total">—</b></div><div class="fine-progress"><i id="fine-progress"></i></div><div class="progress-labels"><span><i class="paid-dot"></i>Paid <b id="paid-fines">—</b></span><span><i class="unpaid-dot"></i>Unpaid <b id="unpaid-fines">—</b></span></div></div></article>
+        </div>
+        <article class="panel table-panel"><div class="panel-head"><div><h3>Recent violations</h3><p>Latest events requiring attention</p></div><button class="text-link" data-page="violations">All violations <span>→</span></button></div><div class="table-wrap"><table><thead><tr><th>INDUSTRY</th><th>POLLUTANT</th><th>EXCEEDANCE</th><th>SEVERITY</th><th>DETECTED</th><th>STATUS</th></tr></thead><tbody id="recent-violations"><tr><td colspan="6" class="empty-cell">Loading violation records…</td></tr></tbody></table></div></article>
+      </section>
+      <section class="page-view" id="view-data"><div class="welcome-row page-title-row"><div><div class="eyebrow" id="page-eyebrow">MONITORING NETWORK</div><h1 id="page-title">Air quality</h1><p class="subheading" id="page-description"></p></div><button class="button button-primary" id="add-button">＋ <span>Add record</span></button></div>
+        <div class="panel live-lookup" id="live-lookup"><div class="live-copy"><div class="live-mark">◉</div><div><h3>Live air quality lookup</h3><p>Fetch the latest conditions for a monitored city.</p></div></div><form id="live-form"><label class="sr-only" for="live-city">City name</label><input id="live-city" placeholder="Enter city, e.g. Delhi" required><button class="button button-primary" type="submit">Check live air</button></form></div>
+        <div class="panel table-panel data-panel"><div class="panel-head"><div><h3 id="table-title">Records</h3><p id="table-caption">Live data from the monitoring platform</p></div><div class="table-tools"><span class="record-count" id="record-count">0 records</span><button class="icon-button" data-action="refresh" aria-label="Refresh">↻</button></div></div><div class="table-wrap"><table><thead id="data-head"></thead><tbody id="data-body"></tbody></table></div></div>
+      </section>
+      <footer class="footer"><span>AtmosWatch <b>·</b> Urban Air Quality Monitoring & Fine Management</span><span>Environmental data, made actionable.</span></footer>
+    </div>
+  </main>
+  <div class="toast" id="toast" role="status"></div>
+  <dialog class="record-dialog" id="record-dialog"><form method="dialog" id="record-form"><div class="dialog-head"><div><div class="eyebrow">RECORD MANAGEMENT</div><h2 id="dialog-title">Add record</h2></div><button class="close-button" type="button" data-dialog-close aria-label="Close">×</button></div><div class="form-grid" id="form-fields"></div><div class="dialog-actions"><button class="button button-quiet" type="button" data-dialog-close>Cancel</button><button class="button button-primary" id="save-record" type="submit">Save record</button></div></form></dialog>
+  <script th:src="@{/js/dialog.js}" defer></script>
+  <script th:src="@{/js/app.js}" defer></script>
+</body>
+</html>
